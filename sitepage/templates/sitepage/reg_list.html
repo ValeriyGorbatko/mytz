@@ -4,16 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <title>registr</title>
-    <link rel="stylesheet" href="{% static 'css/sitepage.css' %}">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/sitepage.css' %}">
 </head>
 <body>
-    <div class="container">
-        <div class="page-header">
-            <h1>Registr</h1>
-        </div>
-
+    <div class="page-header">
+        <h1>Registration</h1>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                {% load social_auth_widget %}
+                <form action="" method="post">
+                    <input name="username" />
+                    <input name="password" />
+                    <input type="submit" value="Sign in" />
+                    {% social_auth_widget %}
+                </form>
+            </div>
+        </div>
+    </div>
+
+     <footer>
+        <p>&copy; 2014 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+     </footer>
 </body>
 </html>

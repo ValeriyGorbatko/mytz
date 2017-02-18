@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+import random
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,11 +25,23 @@ SECRET_KEY = '()&ef=6o3-+rrl2l8@%@1%yq=y4un9kxrd-_uovsd!^#1b7$(@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+SOCIAL_AUTH_CREATE_USERS = True
 
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details'
+)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sitepage',
+    'social_auth',
 ]
 
 MIDDLEWARE = [
@@ -100,6 +114,24 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SOCIAL_AUTH_PROVIDERS = [
+    {'id': p[0], 'name': p[1], 'position': {'width': p[2][0], 'height': p[2][1], }}
+    for p in (
+        ('github', u'Login via GitHub', (0, -70)),
+    )
+]
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.contrib.github.GithubBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+    'social_auth.context_processors.social_auth_by_name_backends',
+)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -113,6 +145,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+GITHUB_APP_ID = '4a9b1c85946a226835db'
+GITHUB_API_SECRET = 'cb7c5b8a34f248ae63a483728b355c786465f67f'
 
 
 # Static files (CSS, JavaScript, Images)

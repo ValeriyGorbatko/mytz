@@ -20,8 +20,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', TemplateView.as_view(template_name='sitepage/reg_list.html')),
+
     url(r'', include('sitepage.urls')),
     url('', include('social_django.urls', namespace='social')),
+    url(r'', TemplateView.as_view(template_name='sitepage/reg_list.html')),
     #url(r'^logout/', auth_views.logout, name='logout'),
 ]

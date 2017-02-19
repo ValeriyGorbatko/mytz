@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'', include('sitepage.urls')),
     url('', include('social_django.urls', namespace='social')),
     url(r'', TemplateView.as_view(template_name='sitepage/reg_list.html')),
-    #url(r'^logout/', auth_views.logout, name='logout'),
+    url(r'^logout/', auth_views.logout, name='logout'),
 ]

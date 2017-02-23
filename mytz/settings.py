@@ -15,14 +15,10 @@ SECRET_KEY = '()&ef=6o3-+rrl2l8@%@1%yq=y4un9kxrd-_uovsd!^#1b7$(@'
 DEBUG = True
 
 
-
 SOCIAL_AUTH_CREATE_USERS = True
 
+
 ALLOWED_HOSTS = ['*']
-
-
-
-# Application definition
 
 
 INSTALLED_APPS = [
@@ -33,8 +29,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
+    'mptt',
 
-    'sitepage',
+    'comments'
 ]
 
 

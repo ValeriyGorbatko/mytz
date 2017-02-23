@@ -15,14 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic.base import  TemplateView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-
-    url(r'', include('sitepage.urls')),
-    url('', include('social_django.urls', namespace='social')),
-    url(r'', TemplateView.as_view(template_name='sitepage/reg_list.html')),
     url(r'^logout/', auth_views.logout, name='logout'),
+    # url(r'^genres/$', 'myapp.views.show_genres'),
+    url(r'', include('comments.urls')),
+    url('', include('social_django.urls', namespace='social')),
+
 ]

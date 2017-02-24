@@ -13,7 +13,10 @@ class TreeListView(TemplateView):
         return context
 
     def post(self, request):
-        #Comment.objects.create(name=request.POST.get('area'))
-        print(request.POST)
+        if request.POST.get('parent'):
+            parent = Comment.objects.get(name=request.POST.get('parent'))
+            Comment.objects.create(name=request.POST.get('comment'), parent=parent)
+        else:
+            Comment.objects.create(name=request.POST.get('area'))
         return render(request, self.template_name, self.get_context_data())
 

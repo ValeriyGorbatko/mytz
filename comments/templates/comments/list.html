@@ -14,7 +14,8 @@
                         </div>
                         <div class="hidden-block">
                             <form action="" method="post">
-                                {% csrf_token    %}
+                                {% csrf_token %}
+                                <input type="hidden" name="parent" value="{{ node.name }}">
                                 <div>
                                     <textarea cols="30" rows="2" name="comment"></textarea>
                                 </div>
@@ -46,8 +47,8 @@
         });
 
         $('.cancel').click(function(){
-            $(this).parent().parent().parent().prev().toggle();
-            $(this).parent().parent().parent().toggle();
+            $(this).parent().parent().parent().parent().prev().toggle();
+            $(this).parent().parent().parent().parent().toggle();
         });
 
         $('.parent-block').click(function(){

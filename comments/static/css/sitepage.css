@@ -67,3 +67,7 @@ textarea {
 .answer {
     color: #609ab6;
 }
+
+input {
+    border: none;
+}

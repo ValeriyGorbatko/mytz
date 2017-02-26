@@ -1,22 +1,36 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.urls import reverse
+from django.urls import reverse_lazy
+from django.views import generic
 from .models import Comment
+from .forms import TreeForm
 
 
-class TreeListView(TemplateView):
+class TreeListView(generic.ListView):
 
     template_name = 'comments/base.html'
+    model = Comment
 
     def get_context_data(self, **kwargs):
         context = super(TreeListView, self).get_context_data(**kwargs)
-        context['nodes'] = Comment.objects.all
+        context['form'] = TreeForm()
         return context
 
-    def post(self, request):
-        if request.POST.get('parent'):
-            parent = Comment.objects.get(name=request.POST.get('parent'))
-            Comment.objects.create(name=request.POST.get('comment'), parent=parent)
-        else:
-            Comment.objects.create(name=request.POST.get('area'))
-        return render(request, self.template_name, self.get_context_data())
+
+class ParentCreateView(generic.CreateView):
+
+    model = Comment
+    template_name = 'comments/base.html'
+    form_class = TreeForm
+    success_url = reverse_lazy('tree_list')
+    
+    def post(self, request, *args, **kwargs):
+        parent = request.POST.get('parent')
+        if parent:
+            name = request.POST.get('name')
+            parent = self.model.objects.get(name=parent)
+            Comment.objects.create(name=name, parent=parent)
+            return HttpResponseRedirect('/')
+        return super(ParentCreateView, self).post(request)
 

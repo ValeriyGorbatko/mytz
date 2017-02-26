@@ -1,4 +1,4 @@
-  {% load mptt_tags %}
+{% load mptt_tags %}
 
 <div class="container">
     <div class="row">
@@ -14,19 +14,17 @@
                             </div>
                         </div>
                         <div class="parent-block media-text">
-                            <span class="node-tree" title="click to show child nodes">
-                                 {% if not node.is_leaf_node %}
-                                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true">
-                                        {{ node.name }}
-                                    </span>
-                                {% else %}
-                                     <span class="glyphicon glyphicon-minus" aria-hidden="true">
-                                        {{ node.name }}
-                                    </span>
-                                {% endif %}
-                            </span>
+                             {% if not node.is_leaf_node %}
+                                <span class="glyphicon glyphicon-triangle-right" aria-hidden="true" title="click to show child nodes">
+                                    {{ node.name }}
+                                </span>
+                            {% else %}
+                                 <span class="glyphicon glyphicon-minus" aria-hidden="true" title="click to show child nodes">
+                                    {{ node.name }}
+                                </span>
+                            {% endif %}
                         </div>
-                        <div class="answer node-tree">
+                        <div class="answer">
                             {% if user.is_authenticated %}
                                 Answer
                             {% endif %}
@@ -47,7 +45,7 @@
                             </form>
                         </div>
                         {% if not node.is_leaf_node %}
-                            <ul class="hidden-block" >
+                            <ul class="hidden-block children">
                                 {{ children }}
                             </ul>
                         {% endif %}
@@ -57,40 +55,3 @@
         </div>
     </div>
 </div>
-
-
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script>
-
-        $('.answer').click(function(){
-            $('.answer').next().hide();
-            $('.answer').show();
-            $(this).next().toggle();
-            $(this).hide();
-             $('textarea').val('');
-        });
-
-        $('.cancel').click(function(){
-            $(this).parent().parent().parent().parent().prev().toggle();
-            $(this).parent().parent().parent().parent().toggle();
-            $('textarea').val('');
-        });
-
-        $('.parent-block').click(function(){
-            var className;
-            $(this).next().next().next().toggle();
-
-            className = $(this).children().children().attr('class');
-            if (className === 'glyphicon glyphicon-triangle-right') {
-                $(this).children().children().removeClass(className);
-                $(this).children().children().addClass('glyphicon glyphicon-triangle-bottom');
-            } else if(className === 'glyphicon glyphicon-triangle-bottom') {
-                $(this).children().children().removeClass(className);
-                $(this).children().children().addClass('glyphicon glyphicon-triangle-right');
-            }
-        });
-
-
-
-    </script>

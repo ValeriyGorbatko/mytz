@@ -20,7 +20,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^logout/', auth_views.logout, name='logout'),
-    # url(r'^genres/$', 'myapp.views.show_genres'),
     url(r'', include('comments.urls')),
     url('', include('social_django.urls', namespace='social')),
 

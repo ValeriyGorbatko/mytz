@@ -1,55 +1,24 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>registr</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{% static 'css/sitepage.css' %}">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-</head>
-<body>
-    <div class="navbar" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">TZ comments</a>
-        </div>
-        <div class="form-group">
-            {% if user.is_authenticated %}
-                <a class="btn btn-success" href="{% url "logout" %}?next=/" >Logout</a>
-                <h3>Hello {{ user.first_name }}</h3>
-            {% endif %}
-        </div>
-    </div>
-    <div class="container">
-        {% if user.is_authenticated %}
-            <div class="container-fluid">
-                <div class="row">
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <div class="col-xs-10 col-md-8 col-md-offset-2 col-xs-offset-1">
-                            {{ form.name }}
-                            <button type="submit" class="btn btn-success pull-right">Send</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        {% else %}
-            {% include 'comments/auth.html' %}
-        {% endif %}
-    <div class="container">
-            {% include 'comments/list.html' %}
-    </div>
-     <!---<footer>
-        <p>&copy; 2014 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-     </footer>-->
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Messages and Comments</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/sitepage.css' %}">
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </head>
+    <body>
+
+        {% block navbar %}
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+    </body>
 </html>
-<script>
-    if (window.location.hash == '#_=_') {
-        window.location.hash = ''; // for older browsers, leaves a # behind
-        history.pushState('', document.title, window.location.pathname); // nice and clean
-        e.preventDefault(); // no page reload
-    }
-</script>
 

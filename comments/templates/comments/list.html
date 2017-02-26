@@ -7,21 +7,34 @@
                 {% recursetree object_list %}
                     <li>
                         <div class="media-heading">
-                            <div class="author">Дима</div>
                             <div class="metadata">
-                              <span class="date">16 ноября 2015, 13:43</span>
+                                <div><strong>{{ node.user.first_name }}</strong>
+                                    <span class="date">({{ node.created }})</span>
+                                </div>
                             </div>
                         </div>
                         <div class="parent-block media-text">
-                            <span class="node-tree" title="show child nodes">{{ node.name }}</span>
+                            <span class="node-tree" title="click to show child nodes">
+                                 {% if not node.is_leaf_node %}
+                                    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true">
+                                        {{ node.name }}
+                                    </span>
+                                {% else %}
+                                     <span class="glyphicon glyphicon-minus" aria-hidden="true">
+                                        {{ node.name }}
+                                    </span>
+                                {% endif %}
+                            </span>
                         </div>
                         <div class="answer node-tree">
-                            Answer
+                            {% if user.is_authenticated %}
+                                Answer
+                            {% endif %}
                         </div>
                         <div class="hidden-block">
-                            <form action="{% url 'create' %}" method="post">
+                            <form action="" method="post">
                                 {% csrf_token %}
-                                <input type="hidden" name="parent" value="{{ node.name }}">
+                                <input type="hidden" name="parent" value="{{ node.pk }}">
                                 <div>
                                     <textarea cols="30" rows="2" name="name"></textarea>
                                 </div>
@@ -45,21 +58,39 @@
     </div>
 </div>
 
+
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script>
+
         $('.answer').click(function(){
+            $('.answer').next().hide();
+            $('.answer').show();
             $(this).next().toggle();
             $(this).hide();
+             $('textarea').val('');
         });
 
         $('.cancel').click(function(){
             $(this).parent().parent().parent().parent().prev().toggle();
             $(this).parent().parent().parent().parent().toggle();
+            $('textarea').val('');
         });
 
         $('.parent-block').click(function(){
+            var className;
             $(this).next().next().next().toggle();
+
+            className = $(this).children().children().attr('class');
+            if (className === 'glyphicon glyphicon-triangle-right') {
+                $(this).children().children().removeClass(className);
+                $(this).children().children().addClass('glyphicon glyphicon-triangle-bottom');
+            } else if(className === 'glyphicon glyphicon-triangle-bottom') {
+                $(this).children().children().removeClass(className);
+                $(this).children().children().addClass('glyphicon glyphicon-triangle-right');
+            }
         });
+
 
 
     </script>

@@ -16,21 +16,16 @@ class TreeListView(generic.ListView):
         context = super(TreeListView, self).get_context_data(**kwargs)
         context['form'] = TreeForm()
         return context
-
-
-class ParentCreateView(generic.CreateView):
-
-    model = Comment
-    template_name = 'comments/base.html'
-    form_class = TreeForm
-    success_url = reverse_lazy('tree_list')
     
     def post(self, request, *args, **kwargs):
-        parent = request.POST.get('parent')
-        if parent:
-            name = request.POST.get('name')
-            parent = self.model.objects.get(name=parent)
-            Comment.objects.create(name=name, parent=parent)
+        if request.user.is_anonymous():
             return HttpResponseRedirect('/')
-        return super(ParentCreateView, self).post(request)
+        parent_id = request.POST.get('parent')
+        name = request.POST.get('name')
+        parent = None
+        if parent_id:
+            parent = self.model.objects.get(id=parent_id)
+        Comment.objects.create(name=name, parent=parent, user=request.user)
+        return HttpResponseRedirect('/')
+
 
